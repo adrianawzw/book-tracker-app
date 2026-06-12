@@ -1,0 +1,16 @@
+.navbar {
+  padding: 1rem 0;
+}
+
+.navbar-brand {
+  font-size: 1.3rem;
+}
+
+.nav-link {
+  font-weight: 500;
+  margin: 0 .5rem;
+}
+
+.btn-primary {
+  border-radius: 10px;
+}
