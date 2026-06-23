@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Books } from '../../services/books';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-list',
@@ -10,6 +11,7 @@ import { Books } from '../../services/books';
 })
 export class BookList {
 
+  private router = inject(Router);
   private booksService = inject(Books);
 
   query = '';
@@ -24,4 +26,12 @@ export class BookList {
       });
   }
 
+  viewDetail(book: any) {
+    this.router.navigate(
+      ['/books', book.key.replace('/works/', '')],
+      {
+        state: { book }
+      }
+    );
+  }
 }

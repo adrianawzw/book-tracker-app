@@ -8,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class BookDetail {
 
+  book: any;
+
+  constructor() {
+    this.book = history.state.book;
+  }
+
 }
