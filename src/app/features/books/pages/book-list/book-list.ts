@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Books } from '../../services/books';
 
 @Component({
   selector: 'app-book-list',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './book-list.html',
   styleUrl: './book-list.css',
 })
@@ -11,13 +12,16 @@ export class BookList {
 
   private booksService = inject(Books);
 
-  constructor() {
+  query = '';
+  books: any[] = [];
 
-    this.booksService.searchBooks('angular')
-      .subscribe(data => {
-        console.log(data);
+  search() {
+    if (!this.query.trim()) return;
+
+    this.booksService.searchBooks(this.query)
+      .subscribe((response: any) => {
+        this.books = response.docs;
       });
-
   }
 
 }
