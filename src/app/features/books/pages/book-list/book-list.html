@@ -1,1 +1,32 @@
-<p>book-list works!</p>
+<div class="container mt-4">
+
+    <h2>Buscar Libros</h2>
+
+    <div class="input-group mb-4">
+        <input type="text" class="form-control" [(ngModel)]="query" placeholder="Buscar libro...">
+
+        <button class="btn btn-primary" (click)="search()">
+            Buscar
+        </button>
+    </div>
+
+    @for(book of books; track book.key){
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <button class="btn btn-outline-primary" (click)="viewDetail(book)">
+                Ver detalle
+            </button>
+            <h5>{{ book.title }}</h5>
+
+            <p>
+                Autor:
+                {{ book.author_name?.[0] || 'Desconocido' }}
+            </p>
+
+        </div>
+    </div>
+
+    }
+
+</div>

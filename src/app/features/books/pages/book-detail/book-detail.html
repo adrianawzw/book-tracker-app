@@ -1,1 +1,20 @@
-<p>book-detail works!</p>
+<div class="container mt-4">
+
+    <h2>{{ book?.title }}</h2>
+
+    <p>
+        <strong>Autor:</strong>
+        {{ book?.author_name?.[0] || 'Desconocido' }}
+    </p>
+
+    <p>
+        <strong>Año:</strong>
+        {{ book?.first_publish_year || 'No disponible' }}
+    </p>
+
+    <p>
+        <strong>Ediciones:</strong>
+        {{ book?.edition_count || 0 }}
+    </p>
+
+</div>
