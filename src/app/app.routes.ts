@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { Dashboard } from './features/dashboard/pages/dashboard/dashboard';
 import { BookList } from './features/books/pages/book-list/book-list';
 import { BookDetail } from './features/books/pages/book-detail/book-detail';
+import { ListList } from './features/list/pages/list-list/list-list';
+import { ListDetail } from './features/list/pages/list-detail/list-detail';
 
 export const routes: Routes = [
   {
@@ -20,5 +22,13 @@ export const routes: Routes = [
   {
     path: 'books/:id',
     component: BookDetail
+  },
+  {
+    path: 'lists',
+    component: ListList
+  },
+  {
+    path: 'lists/:id',
+    component: ListDetail
   }
 ];
