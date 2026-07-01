@@ -5,6 +5,7 @@ import { BookDetail } from './features/books/pages/book-detail/book-detail';
 import { ListList } from './features/list/pages/list-list/list-list';
 import { ListDetail } from './features/list/pages/list-detail/list-detail';
 import { About } from './features/dashboard/pages/about/about';
+import { Login } from './features/auth/pages/login/login';
 
 export const routes: Routes = [
   {
@@ -35,5 +36,9 @@ export const routes: Routes = [
   {
     path: 'lists/:id',
     component: ListDetail
+  },
+  {
+    path: 'login',
+    component: Login
   }
 ];
