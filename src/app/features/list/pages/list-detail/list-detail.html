@@ -1,0 +1,71 @@
+<section class="df-page">
+  <button class="df-btn df-btn-ghost" (click)="volver()"><i class="bi bi-arrow-left"></i> Volver</button>
+
+  <header class="df-section-head">
+    <p class="df-eyebrow">DETALLE DE LISTA</p>
+    <h1 class="df-title">{{ lista()?.nombre || 'Lista' }}</h1>
+  </header>
+
+  @if (errorMsg()) {
+  <div class="df-alert">{{ errorMsg() }}</div>
+  }
+
+  <!-- Agregar libros -->
+  <div class="df-card mb-4">
+    <h3 class="df-card-title"><i class="bi bi-search"></i> Agregar libro a la lista</h3>
+    <p class="df-muted df-small">Busca entre los libros registrados en el catálogo local.</p>
+    <div class="df-search">
+      <input class="df-input" name="query" [(ngModel)]="query" (keyup.enter)="buscar()"
+        placeholder="Buscar por título..." />
+      <button class="df-btn df-btn-primary" (click)="buscar()" [disabled]="searching()">
+        {{ searching() ? '...' : 'Buscar' }}
+      </button>
+    </div>
+
+    @if (resultados.length > 0) {
+    <ul class="df-result-list">
+      @for (libro of resultados; track libro.id) {
+      <li class="df-result">
+        <div>
+          <strong>{{ libro.titulo }}</strong>
+          <p class="df-muted df-small">{{ libro.autor }} · {{ libro.genero }}</p>
+        </div>
+        <button class="df-btn df-btn-primary df-sm" (click)="agregar(libro)">
+          <i class="bi bi-plus-lg"></i> Agregar
+        </button>
+      </li>
+      }
+    </ul>
+    } @else if (query && !searching()) {
+    <p class="df-muted df-small mt-2">No se encontraron libros. Intenta con otro título.</p>
+    }
+  </div>
+
+  <!-- Libros en la lista -->
+  <h3 class="df-card-title">Libros en esta lista ({{ items().length }})</h3>
+
+  @if (loading()) {
+  <p class="df-muted">Cargando...</p>
+  }
+
+  @if (items().length === 0 && !loading()) {
+  <div class="df-empty df-card">
+    <i class="bi bi-book"></i>
+    <p class="df-muted">Esta lista aún no tiene libros.</p>
+  </div>
+  }
+
+  <div class="df-grid">
+    @for (item of items(); track item.registro.id) {
+    <article class="df-card df-book-card">
+      <img class="df-cover" [src]="item.libro?.imagenUrl || ''" alt="Portada"
+        (error)="$event.target.style.display = 'none'" />
+      <h4 class="df-book-title">{{ item.libro?.titulo || 'Libro #' + item.registro.libroId }}</h4>
+      <p class="df-muted df-small">{{ item.libro?.autor || 'Autor desconocido' }}</p>
+      <button class="df-btn df-btn-danger df-sm mt-2" (click)="quitar(item)">
+        <i class="bi bi-trash"></i> Quitar
+      </button>
+    </article>
+    }
+  </div>
+</section>
