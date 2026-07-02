@@ -1,0 +1,78 @@
+<section class="df-page">
+  <header class="df-section-head">
+    <p class="df-eyebrow">TUS COLECCIONES</p>
+    <h1 class="df-title">Mis Listas de Libros</h1>
+    <p class="df-subtitle">Crea, edita y organiza tus lecturas en listas personalizadas.</p>
+  </header>
+
+  @if (me()) {
+  <div class="text-center mb-3">
+    <button class="df-btn df-btn-primary" (click)="openCreate()">
+      <i class="bi bi-plus-lg"></i> Crear Lista
+    </button>
+  </div>
+  }
+
+  @if (errorMsg()) {
+  <div class="df-alert">{{ errorMsg() }}</div>
+  }
+
+  @if (loading()) {
+  <p class="df-muted text-center">Cargando listas...</p>
+  }
+
+  @if (!loading() && listas().length === 0 && me()) {
+  <div class="df-empty df-card">
+    <i class="bi bi-collection"></i>
+    <p class="df-muted">Aún no tienes listas. Crea tu primera lista.</p>
+  </div>
+  }
+
+  @if (!me()) {
+  <div class="df-empty df-card">
+    <i class="bi bi-lock"></i>
+    <p class="df-muted">Inicia sesión para ver y crear tus listas.</p>
+    <a routerLink="/login" class="df-btn df-btn-primary mt-2">Iniciar sesión</a>
+  </div>
+  }
+
+  <div class="df-grid">
+    @for (lista of listas(); track lista.id) {
+    <article class="df-card df-list-card">
+      <div class="df-list-icon"><i class="bi bi-bookmark-star"></i></div>
+      <h3 class="df-list-name">{{ lista.nombre }}</h3>
+      <p class="df-muted df-small">Lista #{{ lista.id }}</p>
+      <div class="df-list-actions">
+        <button class="df-btn df-btn-primary df-sm" (click)="ver(lista)"><i class="bi bi-eye"></i> Ver</button>
+        <button class="df-btn df-btn-ghost df-sm" (click)="openEdit(lista)"><i class="bi bi-pencil"></i> Editar</button>
+        <button class="df-btn df-btn-danger df-sm" (click)="remove(lista)"><i class="bi bi-trash"></i></button>
+      </div>
+    </article>
+    }
+  </div>
+</section>
+
+@if (showModal) {
+<div class="df-modal-backdrop" (click)="closeModal()"></div>
+<div class="df-modal" tabindex="-1" role="dialog">
+  <div class="df-modal-dialog">
+    <div class="df-card df-modal-card">
+      <div class="df-modal-head">
+        <h2 class="df-modal-title">{{ editing ? 'Editar Lista' : 'Crear Lista' }}</h2>
+        <button class="df-close" (click)="closeModal()" aria-label="Cerrar"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="df-modal-body">
+        <label class="df-label" for="nombre">Nombre de la lista</label>
+        <input id="nombre" name="nombre" class="df-input" [(ngModel)]="nombre"
+          placeholder="Ej: Por leer, Favoritos, Tesis..." />
+      </div>
+      <div class="df-modal-foot">
+        <button class="df-btn df-btn-ghost" (click)="closeModal()">Cancelar</button>
+        <button class="df-btn df-btn-primary" (click)="save()" [disabled]="saving">
+          {{ saving ? 'Guardando...' : 'Guardar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+}
