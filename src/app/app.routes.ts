@@ -6,39 +6,44 @@ import { ListList } from './features/list/pages/list-list/list-list';
 import { ListDetail } from './features/list/pages/list-detail/list-detail';
 import { About } from './features/dashboard/pages/about/about';
 import { Login } from './features/auth/pages/login/login';
+import { Resources } from './features/dashboard/pages/resources/resources';
 
 export const routes: Routes = [
   {
     path: '',
     redirectTo: 'dashboard',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'dashboard',
-    component: Dashboard
+    component: Dashboard,
   },
   {
     path: 'about',
-    component: About
+    component: About,
+  },
+  {
+    path: 'resources',
+    component: Resources,
   },
   {
     path: 'books',
-    component: BookList
+    component: BookList,
   },
   {
     path: 'books/:id',
-    component: BookDetail
+    component: BookDetail,
   },
   {
     path: 'lists',
-    component: ListList
+    component: ListList,
   },
   {
     path: 'lists/:id',
-    component: ListDetail
+    component: ListDetail,
   },
   {
     path: 'login',
-    component: Login
-  }
+    component: Login,
+  },
 ];
