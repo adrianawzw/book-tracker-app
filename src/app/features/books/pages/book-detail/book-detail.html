@@ -1,20 +1,76 @@
-<div class="container mt-4">
+<section class="df-page">
+  @if (loading()) {
+    <p class="df-muted text-center">Cargando información del libro...</p>
+  }
 
-    <h2>{{ book?.title }}</h2>
+  @if (errorMsg()) {
+    <div class="df-alert">
+      {{ errorMsg() }}
+    </div>
+  }
 
-    <p>
-        <strong>Autor:</strong>
-        {{ book?.author_name?.[0] || 'Desconocido' }}
-    </p>
+  @if (book()) {
+    <header class="df-section-head">
+      <p class="df-eyebrow">DETALLE DEL LIBRO</p>
+      <h1 class="df-title">{{ book()!.titulo }}</h1>
+      <p class="df-subtitle">Información del libro y reseñas de los usuarios.</p>
+    </header>
 
-    <p>
-        <strong>Año:</strong>
-        {{ book?.first_publish_year || 'No disponible' }}
-    </p>
+    <div class="df-card">
+      <div class="row">
+        <div class="col-md-3 text-center">
+          @if (book()!.imagenUrl) {
+            <img
+              [src]="book()!.imagenUrl"
+              [alt]="book()!.titulo"
+              class="img-fluid rounded shadow-sm"
+            />
+          }
+        </div>
 
-    <p>
-        <strong>Ediciones:</strong>
-        {{ book?.edition_count || 0 }}
-    </p>
+        <div class="col-md-9">
+          <p>
+            <strong>Autor:</strong>
+            {{ book()!.autor }}
+          </p>
 
-</div>
+          <p>
+            <strong>Publicado:</strong>
+            {{ book()!.fechaPublicacion }}
+          </p>
+
+          <p>
+            <strong>Género:</strong>
+            {{ book()!.genero || 'No especificado' }}
+          </p>
+
+          <p>
+            <strong>Descripción:</strong>
+            {{ book()!.descripcion || 'Sin descripción disponible.' }}
+          </p>
+
+          <div class="mt-4">
+            <button class="df-btn df-btn-primary">
+              <i class="bi bi-bookmark-plus"></i>
+
+              Agregar a una lista
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <h2 class="df-title">Escribir una reseña</h2>
+
+      <app-review-form [libroId]="book()!.id" (reviewCreated)="actualizarResenas()">
+      </app-review-form>
+    </div>
+
+    <div class="mt-5">
+      <h2 class="df-title">Reseñas</h2>
+
+      <app-review-list [libroId]="book()!.id"> </app-review-list>
+    </div>
+  }
+</section>

@@ -1,0 +1,128 @@
+<section class="df-card">
+
+    <header class="df-section-head">
+
+        <p class="df-eyebrow">
+
+            RESEÑA
+
+        </p>
+
+        <h2 class="df-title">
+
+            Comparte tu opinión
+
+        </h2>
+
+        <p class="df-subtitle">
+
+            Califica este libro y escribe un comentario.
+
+        </p>
+
+    </header>
+
+    @if(errorMsg()){
+
+        <div class="df-alert">
+
+            {{ errorMsg() }}
+
+        </div>
+
+    }
+
+    <form
+        [formGroup]="reviewForm"
+        (ngSubmit)="guardar()">
+
+        <div class="mb-3">
+
+            <label class="df-label">
+
+                Calificación
+
+            </label>
+
+            <select
+                class="df-input"
+                formControlName="calificacion">
+
+                @for(star of [1,2,3,4,5]; track star){
+
+                    <option [value]="star">
+
+                        {{star}} ★
+
+                    </option>
+
+                }
+
+            </select>
+
+            @if(reviewForm.controls.calificacion.invalid &&
+                reviewForm.controls.calificacion.touched){
+
+                <small class="text-danger">
+
+                    Debe seleccionar una calificación válida.
+
+                </small>
+
+            }
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="df-label">
+
+                Comentario
+
+            </label>
+
+            <textarea
+                rows="6"
+                class="df-input"
+                formControlName="comentario"
+                placeholder="¿Qué te pareció este libro?">
+
+            </textarea>
+
+            @if(reviewForm.controls.comentario.invalid &&
+                reviewForm.controls.comentario.touched){
+
+                <small class="text-danger">
+
+                    El comentario es obligatorio y no puede superar los 1000 caracteres.
+
+                </small>
+
+            }
+
+        </div>
+
+        <div class="text-end">
+
+            <button
+                class="df-btn df-btn-primary"
+                type="submit"
+                [disabled]="loading()">
+
+                @if(loading()){
+
+                    Guardando...
+
+                }@else{
+
+                    Publicar reseña
+
+                }
+
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
