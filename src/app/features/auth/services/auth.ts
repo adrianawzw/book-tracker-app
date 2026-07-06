@@ -17,6 +17,14 @@ interface AuthResponse {
   refresh_token: string;
 }
 
+interface RegisterData {
+  nombres: string;
+  apellidos: string;
+  email: string;
+  password: string;
+  rol: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -35,23 +43,29 @@ export class Auth {
     return !!this.getToken();
   }
 
-  /** Devuelve el id del usuario autenticado (o null si no hay sesión). */
   currentUserId(): number | null {
     return this._me()?.id ?? null;
   }
 
   login(email: string, password: string) {
-    return this.http
-      .post<AuthResponse>(`${API_BASE_URL}/auth/autenticar`, { email, password })
-      .pipe(
-        tap((res) => {
-          localStorage.setItem('access_token', res.access_token);
-          localStorage.setItem('refresh_token', res.refresh_token);
-        }),
-        // tras guardar el token, cargar el usuario antes de navegar
-        switchMap(() => this.loadMe())
-      );
-  }
+  return this.http
+    .post<AuthResponse>(`${API_BASE_URL}/auth/autenticar`, { email, password })
+    .pipe(
+      tap((res) => {
+        localStorage.setItem('access_token', res.access_token);
+        localStorage.setItem('refresh_token', res.refresh_token);
+      })
+    );
+}
+
+register(data: RegisterData) {
+  return this.http.post<Response>(`${API_BASE_URL}/auth/registrar`, {
+    nombres: data.nombres,
+    apellidos: data.apellidos,
+    email: data.email,
+    clave: data.password  // ← "clave" no "password"
+  });
+}
 
   loadMe() {
     return this.http
