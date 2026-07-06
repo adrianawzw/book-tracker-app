@@ -1,21 +1,18 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Libro } from '../../list/models/lista.model';
 import { Observable } from 'rxjs';
 import { API_BASE_URL } from '../../../core/constants';
+import { Libro, LibroRequest } from '../models/libro.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class Books {
-
   private http = inject(HttpClient);
   private readonly base = `${API_BASE_URL}/api/libros`;
 
   searchBooks(query: string) {
-    return this.http.get(
-      `https://openlibrary.org/search.json?q=${query}`
-    );
+    return this.http.get(`https://openlibrary.org/search.json?q=${query}`);
   }
 
   // ---- Catálogo local ----
@@ -31,7 +28,11 @@ export class Books {
     return this.http.get<Libro>(`${this.base}/${id}`);
   }
 
-  create(dto: Partial<Libro>): Observable<Libro> {
+  /*create(dto: Partial<Libro>): Observable<Libro> {
+    return this.http.post<Libro>(this.base, dto);
+  }*/
+
+  saveBook(dto: LibroRequest): Observable<Libro> {
     return this.http.post<Libro>(this.base, dto);
   }
 }
