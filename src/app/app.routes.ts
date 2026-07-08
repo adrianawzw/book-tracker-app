@@ -7,6 +7,7 @@ import { ListDetail } from './features/list/pages/list-detail/list-detail';
 import { About } from './features/dashboard/pages/about/about';
 import { Login } from './features/auth/pages/login/login';
 import { Resources } from './features/dashboard/pages/resources/resources';
+import { Register } from './features/auth/pages/register/register';
 
 export const routes: Routes = [
   {
@@ -46,4 +47,5 @@ export const routes: Routes = [
     path: 'login',
     component: Login,
   },
+  { path: 'register', component: Register },
 ];
