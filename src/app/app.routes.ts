@@ -8,44 +8,17 @@ import { About } from './features/dashboard/pages/about/about';
 import { Login } from './features/auth/pages/login/login';
 import { Resources } from './features/dashboard/pages/resources/resources';
 import { Register } from './features/auth/pages/register/register';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
-  },
-  {
-    path: 'dashboard',
-    component: Dashboard,
-  },
-  {
-    path: 'about',
-    component: About,
-  },
-  {
-    path: 'resources',
-    component: Resources,
-  },
-  {
-    path: 'books',
-    component: BookList,
-  },
-  {
-    path: 'books/:id',
-    component: BookDetail,
-  },
-  {
-    path: 'lists',
-    component: ListList,
-  },
-  {
-    path: 'lists/:id',
-    component: ListDetail,
-  },
-  {
-    path: 'login',
-    component: Login,
-  },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: 'dashboard', component: Dashboard },
+  { path: 'about', component: About },
+  { path: 'resources', component: Resources },
+  { path: 'books', component: BookList },
+  { path: 'books/:id', component: BookDetail, canActivate: [authGuard] },
+  { path: 'lists', component: ListList, canActivate: [authGuard] },
+  { path: 'lists/:id', component: ListDetail, canActivate: [authGuard] },
+  { path: 'login', component: Login },
   { path: 'register', component: Register },
 ];

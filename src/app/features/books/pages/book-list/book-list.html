@@ -1,32 +1,61 @@
-<div class="container mt-4">
+<section class="df-page">
 
-    <h2>Buscar Libros</h2>
+    <header class="df-section-head">
+        <p class="df-eyebrow">CATÁLOGO</p>
+        <h1 class="df-title">Buscar Libros</h1>
+        <p class="df-subtitle">
+            Explora tus libros favoritos.
+            @if (!isLoggedIn) {
+            Inicia sesión para ver el detalle de cada libro y guardarlo en tus listas.
+            }
+        </p>
+    </header>
 
-    <div class="input-group mb-4">
-        <input type="text" class="form-control" [(ngModel)]="query" placeholder="Buscar libro...">
-
-        <button class="btn btn-primary" (click)="search()">
-            Buscar
-        </button>
-    </div>
-
-    @for(book of books; track book.key){
-
-    <div class="card mb-3">
-        <div class="card-body">
-            <button class="btn btn-outline-primary" (click)="viewDetail(book)">
-                Ver detalle
+    <div class="df-card mb-4">
+        <div class="df-search">
+            <input class="df-input" name="query" [(ngModel)]="query" (keyup.enter)="search()"
+                placeholder="Buscar por título, autor..." />
+            <button class="df-btn df-btn-primary" (click)="search()" [disabled]="loading()">
+                {{ loading() ? '...' : 'Buscar' }}
             </button>
-            <h5>{{ book.title }}</h5>
-
-            <p>
-                Autor:
-                {{ book.author_name?.[0] || 'Desconocido' }}
-            </p>
-
         </div>
     </div>
 
+    @if (errorMsg()) {
+    <div class="df-alert">{{ errorMsg() }}</div>
     }
 
-</div>
+    @if (loading()) {
+    <p class="df-muted text-center">Cargando libros...</p>
+    }
+
+    @if (!loading() && books.length === 0) {
+    <div class="df-empty df-card">
+        <i class="bi bi-book"></i>
+        <p class="df-muted">No se encontraron libros.</p>
+    </div>
+    }
+
+    <div class="df-grid">
+        @for (book of books; track book.apiId) {
+        <article class="df-card df-book-card" style="cursor: pointer;" (click)="viewDetail(book)">
+            @if (book.coverUrl) {
+            <img class="df-cover" [src]="book.coverUrl" [alt]="book.titulo"
+                (error)="$event.target.style.display = 'none'" />
+            } @else {
+            <div class="df-cover d-flex align-items-center justify-content-center">
+                <i class="bi bi-book df-muted"></i>
+            </div>
+            }
+
+            <h4 class="df-book-title">{{ book.titulo }}</h4>
+            <p class="df-muted df-small">{{ book.autor || 'Autor desconocido' }}</p>
+
+            @if (!isLoggedIn) {
+            <p class="df-muted df-small mt-2"><i class="bi bi-lock"></i> Inicia sesión para ver el detalle</p>
+            }
+        </article>
+        }
+    </div>
+
+</section>
