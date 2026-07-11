@@ -30,8 +30,8 @@
           <strong>{{ libro.titulo }}</strong>
           <p class="df-muted df-small">{{ libro.autor }} · {{ libro.genero }}</p>
         </div>
-        <button class="df-btn df-btn-primary df-sm" (click)="agregar(libro)">
-          <i class="bi bi-plus-lg"></i> Agregar
+        <button class="df-btn df-btn-primary df-sm" (click)="agregar(libro)" [disabled]="yaEnLista(libro.id)">
+          <i class="bi bi-plus-lg"></i> {{ yaEnLista(libro.id) ? 'Ya está en la lista' : 'Agregar' }}
         </button>
       </li>
       }

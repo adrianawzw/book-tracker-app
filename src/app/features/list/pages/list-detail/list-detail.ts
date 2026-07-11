@@ -90,8 +90,14 @@ export class ListDetail implements OnInit {
     });
   }
 
+  yaEnLista(libroId: number): boolean {
+    return this.items().some((item) => item.registro.libroId === libroId);
+  }
+
   agregar(libro: Libro) {
     if (!this.listaId) return;
+    if (this.yaEnLista(libro.id)) return;
+
     this.lelService.add({ libroId: libro.id, listaId: this.listaId }).subscribe({
       next: () => {
         this.cargarLibrosDeLista();
