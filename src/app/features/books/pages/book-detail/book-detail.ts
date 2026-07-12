@@ -44,8 +44,17 @@ export class BookDetail implements OnInit {
     this.guardarLibro();
   }
 
+  showFallback = signal(false);
+
+  onImageError() {
+    this.showFallback.set(true);
+  }
+
   guardarLibro(): void {
+    this.showFallback.set(false);
+
     this.loading.set(true);
+
     const dto: LibroRequest = {
       titulo: this.bookApi().titulo,
       autor: this.bookApi().autor ?? 'Desconocido',
