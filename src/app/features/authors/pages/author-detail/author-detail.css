@@ -1,0 +1,25 @@
+.book-card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.book-cover {
+  height: 250px;
+  object-fit: contain;
+  background-color: #f8f9fa;
+  padding: 10px;
+}
+
+.book-cover-placeholder {
+  height: 250px;
+}
+
+.mb-3 {
+  margin-top: 2rem;
+
+}

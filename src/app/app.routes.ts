@@ -9,6 +9,8 @@ import { Login } from './features/auth/pages/login/login';
 import { Resources } from './features/dashboard/pages/resources/resources';
 import { Register } from './features/auth/pages/register/register';
 import { authGuard } from './core/guards/auth.guard';
+import { AuthorSearchComponent } from './features/authors/pages/author-search/author-search';
+import { AuthorDetailComponent } from './features/authors/pages/author-detail/author-detail';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -17,6 +19,8 @@ export const routes: Routes = [
   { path: 'resources', component: Resources },
   { path: 'books', component: BookList },
   { path: 'books/:id', component: BookDetail, canActivate: [authGuard] },
+  { path: 'authors', component: AuthorSearchComponent },
+  { path: 'authors/:key', component: AuthorDetailComponent, canActivate: [authGuard] },
   { path: 'lists', component: ListList, canActivate: [authGuard] },
   { path: 'lists/:id', component: ListDetail, canActivate: [authGuard] },
   { path: 'login', component: Login },

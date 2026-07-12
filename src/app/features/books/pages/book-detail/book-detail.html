@@ -20,7 +20,15 @@
     <div class="row">
       <div class="col-md-3 text-center">
         @if (book()!.imagenUrl) {
-        <img [src]="book()!.imagenUrl" [alt]="book()!.titulo" class="img-fluid rounded shadow-sm" />
+        <img [src]="book()!.imagenUrl" [alt]="book()!.titulo" class="book-cover" [class.d-none]="showFallback()"
+          (error)="onImageError()" />
+        <div class="book-cover-placeholder" [class.visible]="showFallback()">
+          <i class="bi bi-book df-muted fs-1"></i>
+        </div>
+        } @else {
+        <div class="book-cover-placeholder visible">
+          <i class="bi bi-book df-muted fs-1"></i>
+        </div>
         }
       </div>
 

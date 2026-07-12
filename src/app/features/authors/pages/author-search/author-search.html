@@ -1,0 +1,70 @@
+<section class="df-page">
+
+    <header class="df-section-head">
+        <p class="df-eyebrow">AUTORES</p>
+        <h1 class="df-title">Buscar Autores</h1>
+        <p class="df-subtitle">
+            Encuentra información sobre tus autores favoritos.
+        </p>
+    </header>
+
+    <div class="df-card mb-4">
+        <div class="df-search">
+            <input class="df-input" name="query" [(ngModel)]="query" (keyup.enter)="search()" autocomplete="off"
+                placeholder="Nombre del autor... " />
+            <button class="df-btn df-btn-primary" (click)="search()" [disabled]="loading()">
+                @if (loading()) {
+                <span class="spinner-border spinner-border-sm"></span>
+                } @else {
+                Buscar
+                }
+            </button>
+        </div>
+    </div>
+
+    @if (errorMsg()) {
+    <div class="df-alert">{{ errorMsg() }}</div>
+    }
+
+    @if (loading()) {
+    <p class="df-muted text-center">Buscando autores...</p>
+    }
+
+    <div class="df-grid">
+        @for (author of authors; track author.key) {
+        <article class="df-card df-book-card df-clickable" (click)="viewDetail(author)">
+            <h4 class="df-book-title text-center mt-3">{{ author.name }}</h4>
+            <p class="df-muted df-small text-center mb-1">
+                <strong>Obras:</strong> {{ author.workCount || 'Desconocido' }}
+            </p>
+            @if (author.birthDate) {
+            <p class="df-muted df-small text-center mb-1">
+                <strong>Nacimiento:</strong> {{ author.birthDate }}
+            </p>
+            }
+            @if (author.topWork) {
+            <p class="df-muted df-small text-center fst-italic">
+                Obra destacada: {{ author.topWork }}
+            </p>
+            }
+        </article>
+        }
+    </div>
+
+    @if (!loading() && authors.length === 0 && !query) {
+    <section class="mt-5">
+        <h4 class="mb-4">Autores que te pueden interesar</h4>
+        <div class="df-grid">
+            @for (author of suggestedAuthors; track author.key) {
+            <article class="df-card df-book-card" style="cursor: pointer;" (click)="searchSuggested(author)">
+                <h4 class="df-book-title text-center mt-3">{{ author.name }}</h4>
+                <p class="df-muted df-small text-center mb-1">
+                    <strong>Obras destacadas:</strong><br />{{ author.topWork }}
+                </p>
+            </article>
+            }
+        </div>
+    </section>
+    }
+
+</section>
