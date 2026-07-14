@@ -1,0 +1,89 @@
+<section class="df-card">
+
+    <header class="df-section-head">
+
+        <p class="df-eyebrow">
+
+            RESEÑAS
+
+        </p>
+
+        <h2 class="df-title">
+
+            Opiniones de los lectores
+
+        </h2>
+
+    </header>
+
+    @if(loading()){
+
+        <p class="df-muted">
+
+            Cargando reseñas...
+
+        </p>
+
+    }
+
+    @if(errorMsg()){
+
+        <div class="df-alert">
+
+            {{ errorMsg() }}
+
+        </div>
+
+    }
+
+    @if(!loading() && reviews().length === 0){
+
+        <div class="df-empty">
+
+            <p class="df-muted">
+
+                Todavía no existen reseñas para este libro.
+
+            </p>
+
+        </div>
+
+    }
+
+    @for(review of reviews(); track review.id){
+
+        <article class="df-card mb-3">
+
+            <div class="d-flex justify-content-between">
+
+                <strong>
+
+                    Usuario #{{ review.usuarioId }}
+
+                </strong>
+
+                <span>
+
+                    {{ review.calificacion }} ★
+
+                </span>
+
+            </div>
+
+            <p class="mt-2">
+
+                {{ review.comentario }}
+
+            </p>
+
+            <small class="df-muted">
+
+                {{ review.fecha }}
+
+            </small>
+
+        </article>
+
+    }
+
+</section>

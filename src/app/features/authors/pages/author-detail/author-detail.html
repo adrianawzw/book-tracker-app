@@ -1,0 +1,80 @@
+<section class="df-page">
+
+  @if (author) {
+  <header class="df-section-head">
+    <p class="df-eyebrow">DETALLE DEL AUTOR</p>
+    <h1 class="df-title">{{ author.name }}</h1>
+    <p class="df-subtitle">Información del autor y sus obras.</p>
+  </header>
+
+  <div class="df-card">
+    <div class="row">
+      <div class="col-md-3 text-center">
+        @if (author.key) {
+        <img [src]="'https://covers.openlibrary.org/a/olid/' + author.key + '-M.jpg'" [alt]="author.name"
+          class="img-fluid rounded shadow-sm" (error)="handleImageError(img, placeholder)"
+          (load)="handleImageLoad(img, placeholder)" #img />
+
+        <div
+          class="df-cover align-items-center justify-content-center bg-light rounded shadow-sm flex-column text-center p-3"
+          style="height: 200px; display: none !important;" #placeholder>
+          <i class="bi bi-person df-muted" style="font-size: 4rem;"></i>
+          <span class="df-muted df-small mt-2">Imagen no disponible de {{ author.name }}</span>
+        </div>
+        }
+      </div>
+
+      <div class="col-md-9">
+        <p><strong>ID OpenLibrary:</strong> {{ author.key }}</p>
+        @if (author.birthDate) {
+        <p><strong>Nacimiento:</strong> {{ author.birthDate }}</p>
+        }
+        @if (author.workCount) {
+        <p><strong>Total de obras:</strong> {{ author.workCount }}</p>
+        }
+        @if (author.topWork) {
+        <p><strong>Obra destacada:</strong> {{ author.topWork }}</p>
+        }
+      </div>
+    </div>
+  </div>
+  } @else {
+  <header class="df-section-head text-center">
+    <h1 class="df-title">Obras del Autor</h1>
+  </header>
+  }
+
+  @if (errorMsg()) {
+  <div class="df-alert">{{ errorMsg() }}</div>
+  }
+
+  @if (loading()) {
+  <p class="df-muted text-center py-5">Cargando libros...</p>
+  }
+
+  @if (!loading() && books.length > 0) {
+  <h4 class="mb-3">{{ books.length === 30 ? 'Vista Previa de Libros' : 'Libros' }} ({{ books.length }})</h4>
+  <div class="df-grid">
+    @for (book of books; track book.apiId) {
+    <article class="df-card df-book-card" style="cursor: pointer;" (click)="viewBookDetail(book)">
+      @if (book.coverUrl) {
+      <img class="df-cover" [src]="book.coverUrl" alt="Portada de {{ book.titulo }}"
+        (error)="$event.target.style.display = 'none'" />
+      } @else {
+      <div class="df-cover d-flex align-items-center justify-content-center bg-light">
+        <i class="bi bi-book df-muted fs-1"></i>
+      </div>
+      }
+      <h4 class="df-book-title text-center mt-3">{{ book.titulo }}</h4>
+      <p class="df-muted df-small text-center mb-0">{{ book.autor || 'Autor desconocido' }}</p>
+    </article>
+    }
+  </div>
+  } @else if (!loading() && books.length === 0) {
+  <div class="df-empty df-card mt-5">
+    <i class="bi bi-book"></i>
+    <p class="df-muted">Este autor no tiene libros registrados o no se pudieron encontrar.</p>
+  </div>
+  }
+
+</section>
